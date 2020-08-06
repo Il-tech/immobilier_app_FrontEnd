@@ -1,39 +1,33 @@
 {
-	"Categories":
-				[
-					{ 
-					    "id": "1", 
-						"type": "Appartement",
-						"image": "assets/images/appartement.png"
-					    },
-					
-					{ 
-					    "id": "2", 
-					    "type": "Local industriel",
-						"image": "assets/images/factory.png"
-					    
-					},
-					
-					
-					{ 
-					    "id": "3", 
-					    "type": "Bureau et plateau",
-						"image": "assets/images/farm.png" 
-					    
-					},
-					
-					{
-					    "id": "4",
-					    "type": "Villa et maison",
-						"image": "assets/images/house.png" },
-					{ 
-					    "id": "5",
-					    "type": "Magasin et commerce",
-						"image": "assets/images/commerce.png" },
-					{ "id": "6", "type": "Terrain et ferme",
-						"image": "assets/images/farm.png" }
-					
-				]
-		
+  "Categories": [
+    {
+      "id": 1,
+      "type": "Appartement",
+      "image": "assets/images/appartement.png"
+    },
 
+    {
+      "id": 2,
+      "type": "Local industriel",
+      "image": "assets/images/factory.png"
+    },
+
+    {
+      "id": 3,
+      "type": "Bureau et plateau",
+      "image": "assets/images/farm.png"
+    },
+
+    {
+      "id": 4,
+      "type": "Villa et maison",
+      "image": "assets/images/house.png"
+    },
+    {
+      "id": 5,
+      "type": "Magasin et commerce",
+      "image": "assets/images/commerce.png"
+    },
+    { "id": 6, "type": "Terrain et ferme", "image": "assets/images/farm.png" }
+  ]
 }

@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:immobilierApp/widgets/signUp.dart';
+import 'package:immobilierApp/screens/signUp.dart';
 
 class SignIn extends StatefulWidget {
   @override

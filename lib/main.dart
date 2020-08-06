@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:immobilierApp/widgets/categorie.dart';
-import 'package:immobilierApp/services/serviceLocator.dart';
-import 'package:immobilierApp/widgets/signIn.dart';
-import 'package:immobilierApp/widgets/signUp.dart';
+import 'package:immobilierApp/properties/presentation/provider/PropertiesModel.dart';
+import 'package:immobilierApp/properties/presentation/screen/PropertiesScreen.dart';
+import 'package:immobilierApp/screens/signIn.dart';
+import 'package:immobilierApp/screens/signUp.dart';
+import 'package:immobilierApp/config/injectable_dependecies.dart';
+import 'package:provider/provider.dart';
+import 'package:immobilierApp/categorie/presentation/provider/categorie_model.dart';
+import 'categorie/presentation/screen/categorie_screen.dart';
 
 void main() {
-  setupServiceLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,30 +25,18 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
       routes: {
-        '/': (context) => ListCategory(),
         'Login': (context) => SignIn(),
         'SignUp': (context) => SignUp(),
+        'propertyList': (context) => ListProperty(),
       },
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => getIt<GetCategoriesModel>()),
+          ChangeNotifierProvider(create: (_) => getIt<PropertyModel>()),
+        ],
+        child: MaterialApp(home: ListCategory()),
+      ),
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: const Color(0xff376BFF),
-          accentColor: Colors.white,
-          fontFamily: 'Poppins',
-        ),
-        home: MyApp());
   }
 }
