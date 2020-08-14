@@ -17,10 +17,13 @@ import '../properties/data/datasources/property_data_source.dart';
 import '../properties/data/datasources/property_data_source_impl.dart';
 import '../properties/data/repository/property_repository_imp.dart';
 import '../properties/domain/repository/properties_repositories.dart';
+import '../properties/domain/usecases/get_all.dart';
 import '../properties/domain/usecases/get_current_user.dart';
 import '../properties/domain/usecases/get_features.dart';
 import '../properties/domain/usecases/get_properties.dart';
-import '../properties/presentation/provider/PropertiesModel.dart';
+import '../properties/domain/usecases/get_property_by_id.dart';
+import '../properties/presentation/provider/filter_model.dart';
+import '../properties/presentation/provider/properties_model.dart';
 import 'ThirdParty.dart';
 
 /// adds generated dependencies
@@ -37,8 +40,11 @@ void $initGetIt(GetIt g, {String environment}) {
   gh.factory<GetCategoriesModel>(() => GetCategoriesModel(g<GetCategories>()));
   gh.lazySingleton<SourcePropertyData>(
       () => PropertyDataSourceImpl(g<Client>()));
+  gh.factory<FilterModel>(() => FilterModel(g<GetCategories>()));
   gh.lazySingleton<PropertyRepository>(
       () => PropertyRepositoryImp(g<SourcePropertyData>()));
+  gh.lazySingleton<GetAll>(() => GetAll(g<PropertyRepository>()));
+  gh.lazySingleton<GetById>(() => GetById(g<PropertyRepository>()));
   gh.lazySingleton<GetFeatures>(() => GetFeatures(g<PropertyRepository>()));
   gh.lazySingleton<GetProperties>(() => GetProperties(g<PropertyRepository>()));
   gh.lazySingleton<GetUser>(() => GetUser(g<PropertyRepository>()));
@@ -46,6 +52,8 @@ void $initGetIt(GetIt g, {String environment}) {
         g<GetProperties>(),
         g<GetFeatures>(),
         g<GetUser>(),
+        g<GetAll>(),
+        g<GetById>(),
       ));
 }
 

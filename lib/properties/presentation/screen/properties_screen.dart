@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:immobilierApp/categorie/presentation/provider/categorie_model.dart';
 import 'package:immobilierApp/common_widgets/app_bar.dart';
-import 'package:immobilierApp/config/injectable_dependecies.dart';
-import 'package:immobilierApp/properties/data/model/property/property.dart';
-import 'package:immobilierApp/properties/domain/usecases/get_properties.dart';
-import 'package:immobilierApp/properties/presentation/provider/PropertiesModel.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-
+import 'package:immobilierApp/properties/presentation/provider/filter_model.dart';
+import 'package:immobilierApp/properties/presentation/provider/properties_model.dart';
 import 'package:immobilierApp/common_widgets/app_drawer.dart';
-import 'package:immobilierApp/properties/presentation/screen/Property_detail.dart';
+import 'package:immobilierApp/properties/presentation/screen/Property_detail_screen.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class ListProperty extends StatefulWidget {
@@ -42,25 +38,42 @@ class _ListPropertyState extends State<ListProperty> {
                         fontSize: 17.0)),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20, right: 30, left: 30),
-                child: SizedBox(
-                  height: 100.0,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: Icon(Icons.sort),
-                      hintText: 'Search ...',
-                      border: UnderlineInputBorder(),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: const Color(0xFF707070)),
-                          borderRadius: BorderRadius.circular(25.7)),
-                    ),
-                  ),
-                ),
-              ),
+                  padding:
+                      EdgeInsets.only(top: 30, bottom: 30, left: 50, right: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Center(
+                          child: Container(
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                prefixIcon: Icon(Icons.search),
+                                hintText: 'Search ...',
+                                border: UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: const Color(0xFF707070)),
+                                    borderRadius: BorderRadius.circular(25.7)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      IconButton(
+                        icon: Icon(Icons.filter_list, color: Colors.white),
+                        tooltip: 'filtrer',
+                        onPressed: () => {
+                          Scaffold.of(context)
+                              .showBottomSheet((context) => BottomSheet())
+                        },
+                      ),
+                    ],
+                  )),
               SizedBox(height: 10.0),
               Container(
                 height: MediaQuery.of(context).size.height,
@@ -85,12 +98,13 @@ class _ListPropertyState extends State<ListProperty> {
                             ),
                           ),
                           child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)),
-                              elevation: 5,
-                              margin: const EdgeInsets.all(6),
-                              color: Colors.white,
-                              child: Column(children: <Widget>[
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            elevation: 5,
+                            margin: const EdgeInsets.all(6),
+                            color: Colors.white,
+                            child: Column(
+                              children: <Widget>[
                                 new Stack(
                                   children: [
                                     SizedBox(
@@ -313,7 +327,9 @@ class _ListPropertyState extends State<ListProperty> {
                                     ],
                                   ),
                                 )
-                              ])),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     }),
@@ -321,5 +337,125 @@ class _ListPropertyState extends State<ListProperty> {
             ],
           );
         }));
+  }
+}
+
+class BottomSheet extends StatefulWidget {
+  BottomSheet({Key key}) : super(key: key);
+
+  @override
+  _BottomSheetState createState() => _BottomSheetState();
+}
+
+class _BottomSheetState extends State<BottomSheet> {
+  @override
+  Widget build(final BuildContext context) {
+    return Consumer<FilterModel>(
+      builder: (
+        final BuildContext context,
+        final FilterModel singleSelectCountry,
+        final Widget child,
+      ) {
+        return Column(children: [
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text('recherche de propriétés',
+                  style: TextStyle(
+                    height: 3.0,
+                    color: const Color(0xff707070),
+                    fontSize: 17,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w700,
+                  )),
+            ),
+          ]),
+          Container(
+            // width: MediaQuery.of(context).size.width * 2,
+            padding: EdgeInsets.only(
+              left: 0,
+              top: 20,
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 50,
+                  ),
+                ),
+                DropdownButton<String>(
+                  hint: const Text("le type de transaction"),
+                  iconSize: 24,
+                  elevation: 16,
+                  underline: Container(),
+                  style: TextStyle(
+                    color: const Color(0xff707070),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'PoppinsRegular',
+                    height: 2,
+                  ),
+                  value: singleSelectCountry.selectedTransaction,
+                  onChanged: (final String newValue) {
+                    singleSelectCountry.selectedTransaction = newValue;
+                  },
+                  items:
+                      singleSelectCountry.items.map<DropdownMenuItem<String>>(
+                    (final String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            // width: MediaQuery.of(context).size.width * 2,
+            padding: EdgeInsets.only(
+              left: 0,
+              top: 20,
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 50,
+                  ),
+                ),
+                DropdownButton<String>(
+                  hint: const Text("le type de transaction"),
+                  iconSize: 24,
+                  elevation: 16,
+                  underline: Container(),
+                  style: TextStyle(
+                    color: const Color(0xff707070),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'PoppinsRegular',
+                    height: 2,
+                  ),
+                  value: singleSelectCountry.selectedTransaction,
+                  onChanged: (final String newValue) {
+                    singleSelectCountry.selectedTransaction = newValue;
+                  },
+                  items:
+                      singleSelectCountry.items.map<DropdownMenuItem<String>>(
+                    (final String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
+                ),
+              ],
+            ),
+          ),
+        ]);
+      },
+    );
   }
 }

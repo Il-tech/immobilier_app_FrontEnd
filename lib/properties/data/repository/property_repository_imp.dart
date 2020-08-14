@@ -20,6 +20,14 @@ class PropertyRepositoryImp implements PropertyRepository {
   }
 
   @override
+  Future<List<Property>> getAllProperties() async {
+    final List<Property> remoteProperties =
+        await propertyDataSource.getProperties();
+    if (remoteProperties == null) return null;
+    return remoteProperties;
+  }
+
+  @override
   Future<List<Features>> getFeatures(int id) async {
     final List<Features> remoteFeatures =
         await propertyDataSource.getFeaturesFromRemote(id);
@@ -33,5 +41,13 @@ class PropertyRepositoryImp implements PropertyRepository {
         await propertyDataSource.getUsersFromRemote(id);
     if (remoteCurrentUser == null) return null;
     return remoteCurrentUser;
+  }
+
+  @override
+  Future<Property> getPropertyById(int id) async {
+    final Property remotePropertyById =
+        await propertyDataSource.getPropertiesById(id);
+    if (remotePropertyById == null) return null;
+    return remotePropertyById;
   }
 }

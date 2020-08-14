@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:immobilierApp/properties/presentation/provider/PropertiesModel.dart';
-import 'package:immobilierApp/properties/presentation/screen/PropertiesScreen.dart';
+import 'package:immobilierApp/properties/presentation/provider/filter_model.dart';
+import 'package:immobilierApp/properties/presentation/provider/properties_model.dart';
+import 'package:immobilierApp/properties/presentation/screen/properties_screen.dart';
 import 'package:immobilierApp/screens/signIn.dart';
 import 'package:immobilierApp/screens/signUp.dart';
 import 'package:immobilierApp/config/injectable_dependecies.dart';
@@ -29,11 +30,14 @@ class MyApp extends StatelessWidget {
         'Login': (context) => SignIn(),
         'SignUp': (context) => SignUp(),
         'propertyList': (context) => ListProperty(),
+        // '/favoriteScreen': (context) => FavoriteScreen(),
+        'Catégories': (context) => ListCategory(),
       },
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => getIt<GetCategoriesModel>()),
           ChangeNotifierProvider(create: (_) => getIt<PropertyModel>()),
+          ChangeNotifierProvider(create: (_) => getIt<FilterModel>()),
         ],
         child: MaterialApp(home: ListCategory()),
       ),

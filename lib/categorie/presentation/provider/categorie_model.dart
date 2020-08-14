@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:immobilierApp/categorie/data/model/category.dart';
 import 'package:injectable/injectable.dart';
 import 'package:immobilierApp/categorie/domain/usecases/get_categories.dart';
+
 @injectable
 class GetCategoriesModel extends ChangeNotifier {
   GetCategories getCategories;

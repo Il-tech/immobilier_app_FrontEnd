@@ -28,6 +28,7 @@ _$_Property _$_$_PropertyFromJson(Map<String, dynamic> json) {
         ? null
         : Category.fromJson(json['category'] as Map<String, dynamic>),
     json['imageHeader'] as String,
+    json['isFavorite'] as bool,
   );
 }
 
@@ -47,4 +48,5 @@ Map<String, dynamic> _$_$_PropertyToJson(_$_Property instance) =>
       'ville': instance.ville,
       'category': instance.category,
       'imageHeader': instance.imageHeader,
+      'isFavorite': instance.isFavorite,
     };

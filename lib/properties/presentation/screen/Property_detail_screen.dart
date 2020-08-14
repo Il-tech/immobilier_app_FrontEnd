@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:immobilierApp/common_widgets/app_bar.dart';
 import 'package:immobilierApp/common_widgets/app_drawer.dart';
 import 'package:immobilierApp/properties/data/model/property/property.dart';
-import 'package:immobilierApp/properties/presentation/provider/PropertiesModel.dart';
+import 'package:immobilierApp/properties/presentation/provider/properties_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,13 +17,18 @@ class DetailProperty extends StatefulWidget {
 
 class _DetailPropertyState extends State<DetailProperty> {
   Future<void> _launched;
-
+  bool isFavorite;
   Future<void> _makePhoneCall(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw 'Could not launch $url';
+      throw 'Coud not launch $url';
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -34,6 +39,14 @@ class _DetailPropertyState extends State<DetailProperty> {
         body: Consumer<PropertyModel>(builder: (context, model, child) {
           model.findFeatures(this.widget.property.id);
           model.getCurrentUser(this.widget.property.id);
+          if (model.getFavoriteStatus(this.widget.property.id)) {
+            // _favIcon = Icon(Icons.bookmark, color: Colors.red);
+            isFavorite = true;
+          } else {
+            // _favIcon = Icon(Icons.bookmark_border, color: Colors.white);
+            isFavorite = false;
+          }
+
           return ListView(children: [
             Card(
                 shape: RoundedRectangleBorder(
@@ -55,6 +68,34 @@ class _DetailPropertyState extends State<DetailProperty> {
                           ),
                         ),
                       ),
+                      new Positioned(
+                          left: 350,
+                          top: -4,
+                          child: new IconButton(
+                            icon: (isFavorite
+                                ? Icon(Icons.bookmark, color: Colors.red)
+                                : Icon(Icons.bookmark_border,
+                                    color: Colors.white)),
+                            tooltip: 'add to favorite',
+                            color: Colors.red,
+                            onPressed: () {
+                              setState(() {
+                                model.toggleFavoriteStatus(
+                                    this.widget.property, isFavorite);
+
+                                if (model.getFavoriteStatus(
+                                    this.widget.property.id)) {
+                                  isFavorite = true;
+                                  // _favIcon =
+                                  //     Icon(Icons.bookmark, color: Colors.red);
+                                } else {
+                                  isFavorite = false;
+                                  // _favIcon = Icon(Icons.bookmark_border,
+                                  //     color: Colors.white);
+                                }
+                              });
+                            },
+                          )),
                     ]),
                     Container(
                         child: Column(

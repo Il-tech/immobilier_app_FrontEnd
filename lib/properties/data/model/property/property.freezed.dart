@@ -25,6 +25,7 @@ abstract class _$Property {
   String get ville;
   Category get category;
   String get imageHeader;
+  bool get isFavorite;
 
   Property copyWith(
       {int id,
@@ -40,7 +41,8 @@ abstract class _$Property {
       Transaction transaction,
       String ville,
       Category category,
-      String imageHeader});
+      String imageHeader,
+      bool isFavorite});
 
   Map<String, dynamic> toJson();
 }
@@ -61,7 +63,8 @@ class _$_Property implements _Property {
       this.transaction,
       this.ville,
       this.category,
-      this.imageHeader);
+      this.imageHeader,
+      this.isFavorite);
 
   factory _$_Property.fromJson(Map<String, dynamic> json) =>
       _$_$_PropertyFromJson(json);
@@ -94,10 +97,12 @@ class _$_Property implements _Property {
   final Category category;
   @override
   final String imageHeader;
+  @override
+  final bool isFavorite;
 
   @override
   String toString() {
-    return 'Property(id: $id, slug: $slug, titre: $titre, prix: $prix, adresse: $adresse, description: $description, video: $video, renewed_at: $renewed_at, nombre_facades: $nombre_facades, nombre_chmbre: $nombre_chmbre, transaction: $transaction, ville: $ville, category: $category, imageHeader: $imageHeader)';
+    return 'Property(id: $id, slug: $slug, titre: $titre, prix: $prix, adresse: $adresse, description: $description, video: $video, renewed_at: $renewed_at, nombre_facades: $nombre_facades, nombre_chmbre: $nombre_chmbre, transaction: $transaction, ville: $ville, category: $category, imageHeader: $imageHeader, isFavorite: $isFavorite)';
   }
 
   @override
@@ -122,7 +127,9 @@ class _$_Property implements _Property {
         (identical(other.ville, ville) || other.ville == ville) &&
         (identical(other.category, category) || other.category == category) &&
         (identical(other.imageHeader, imageHeader) ||
-            other.imageHeader == imageHeader);
+            other.imageHeader == imageHeader) &&
+        (identical(other.isFavorite, isFavorite) ||
+            other.isFavorite == isFavorite);
   }
 
   @override
@@ -141,7 +148,8 @@ class _$_Property implements _Property {
       transaction.hashCode ^
       ville.hashCode ^
       category.hashCode ^
-      imageHeader.hashCode;
+      imageHeader.hashCode ^
+      isFavorite.hashCode;
 
   @override
   _$_Property copyWith({
@@ -159,6 +167,7 @@ class _$_Property implements _Property {
     Object ville = immutable,
     Object category = immutable,
     Object imageHeader = immutable,
+    Object isFavorite = immutable,
   }) {
     return _$_Property(
       id == immutable ? this.id : id as int,
@@ -175,6 +184,7 @@ class _$_Property implements _Property {
       ville == immutable ? this.ville : ville as String,
       category == immutable ? this.category : category as Category,
       imageHeader == immutable ? this.imageHeader : imageHeader as String,
+      isFavorite == immutable ? this.isFavorite : isFavorite as bool,
     );
   }
 
@@ -199,7 +209,8 @@ abstract class _Property implements Property {
       Transaction transaction,
       String ville,
       Category category,
-      String imageHeader) = _$_Property;
+      String imageHeader,
+      bool isFavorite) = _$_Property;
 
   factory _Property.fromJson(Map<String, dynamic> json) = _$_Property.fromJson;
 
@@ -231,6 +242,8 @@ abstract class _Property implements Property {
   Category get category;
   @override
   String get imageHeader;
+  @override
+  bool get isFavorite;
 
   @override
   _Property copyWith(
@@ -247,5 +260,6 @@ abstract class _Property implements Property {
       Transaction transaction,
       String ville,
       Category category,
-      String imageHeader});
+      String imageHeader,
+      bool isFavorite});
 }

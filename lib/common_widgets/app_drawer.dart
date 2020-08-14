@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:immobilierApp/common_widgets/routes.dart';
+import 'package:immobilierApp/properties/presentation/screen/favorites_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -71,6 +71,28 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed("/");
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(
+              Icons.favorite,
+              color: const Color(0xffD7D7DA),
+            ),
+            title: Text(
+              "Favories",
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'PoppinsRegular',
+                height: 2,
+                letterSpacing: 2,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new FavoriteScreen()));
             },
           ),
         ],

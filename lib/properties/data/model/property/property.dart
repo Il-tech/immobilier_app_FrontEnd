@@ -22,6 +22,7 @@ abstract class Property with _$Property {
     @JsonKey(name: 'ville') String ville,
     @JsonKey(name: 'category') Category category,
     @JsonKey(name: 'imageHeader') String imageHeader,
+    @JsonKey(name: 'isFavorite') bool isFavorite,
   ) = _Property;
   factory Property.fromJson(Map<String, dynamic> json) =>
       _$PropertyFromJson(json);
